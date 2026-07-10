@@ -1,4 +1,4 @@
-﻿/***************************************************************************
+/***************************************************************************
  *   Copyright (C) 2006 David Faure <faure@kde.org>                        *
  *   Copyright (C) 2008 Fredrik H枚glund <fredrik@kde.org>                  *
  *   Copyright (C) 2008 Rafael Fern谩ndez L贸pez <ereslibre@kde.org>         *
@@ -47,8 +47,9 @@
 #include <QCollator>
 #include <QDBusInterface>
 #include <QStandardPaths>
-#include <QApplication>
-#include <QDesktopWidget>
+#include <QGuiApplication>
+#include <QScreen>
+#include <QRegularExpression>
 #include <QMimeDatabase>
 #include <QMimeData>
 #include <QClipboard>
@@ -562,9 +563,8 @@ void FolderModel::setFilterPattern(const QString &pattern)
     m_regExps.reserve(patterns.count());
 
     foreach (const QString &pattern, patterns) {
-        QRegExp rx(pattern);
-        rx.setPatternSyntax(QRegExp::Wildcard);
-        rx.setCaseSensitivity(Qt::CaseInsensitive);
+        QRegularExpression rx(QRegularExpression::wildcardToRegularExpression(pattern),
+                              Qt::CaseInsensitive);
         m_regExps.append(rx);
     }
 
@@ -1902,9 +1902,8 @@ bool FolderModel::matchPattern(const KFileItem &item) const
     }
 
     const QString name = item.name();
-    QListIterator<QRegExp> i(m_regExps);
-    while (i.hasNext()) {
-        if (i.next().exactMatch(name)) {
+    for (const QRegularExpression &rx : m_regExps) {
+        if (rx.match(name).hasMatch()) {
             return true;
         }
     }
