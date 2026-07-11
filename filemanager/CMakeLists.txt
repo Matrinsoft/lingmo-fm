@@ -1,4 +1,4 @@
-﻿set(SCREEN_SRCS
+set(SCREEN_SRCS
     window.cpp
     desktopiconprovider.cpp
     model/foldermodel.cpp
@@ -27,10 +27,10 @@
 )
 
 find_package(Qt6 COMPONENTS Core DBus Quick LinguistTools REQUIRED)
-find_package(KF5KIO)
-find_package(KF5Solid)
-find_package(KF5WindowSystem)
-find_package(KF5Config)
+find_package(KF6KIO REQUIRED)
+find_package(KF6Solid REQUIRED)
+find_package(KF6WindowSystem REQUIRED)
+find_package(KF6Config REQUIRED)
 
 add_library(lingmofilemanager_qmlplugins SHARED ${SCREEN_SRCS})
 

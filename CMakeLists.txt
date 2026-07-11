@@ -1,4 +1,4 @@
-﻿cmake_minimum_required(VERSION 3.20)
+cmake_minimum_required(VERSION 3.20)
 
 project(lingmo-fm VERSION 1.0.0 DESCRIPTION "Lingmo File Manager" LANGUAGES CXX)
 
@@ -27,10 +27,10 @@ execute_process(COMMAND ${QT_QMAKE_EXECUTABLE} -query QT_INSTALL_QML
 
 # find_package(LingmoUI REQUIRED)
 
-find_package(KF5KIO)
-find_package(KF5Solid)
-find_package(KF5WindowSystem)
-find_package(KF5Config)
+find_package(KF6KIO REQUIRED)
+find_package(KF6Solid REQUIRED)
+find_package(KF6WindowSystem REQUIRED)
+find_package(KF6Config REQUIRED)
 
 qt_add_dbus_adaptor(DBUS_SOURCES
                      com.lingmo.FileManager.xml
