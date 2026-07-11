@@ -27,10 +27,14 @@ execute_process(COMMAND ${QT_QMAKE_EXECUTABLE} -query QT_INSTALL_QML
 
 # find_package(LingmoUI REQUIRED)
 
-find_package(KF6KIO REQUIRED)
-find_package(KF6Solid REQUIRED)
-find_package(KF6WindowSystem REQUIRED)
-find_package(KF6Config REQUIRED)
+find_package(KF6KIO QUIET)
+find_package(KF6Solid QUIET)
+find_package(KF6WindowSystem QUIET)
+find_package(KF6Config QUIET)
+if(NOT KF6KIO_FOUND OR NOT KF6WindowSystem_FOUND)
+    message(STATUS "KF6KIO or KF6WindowSystem not found, skipping lingmo-fm")
+    return()
+endif()
 
 qt_add_dbus_adaptor(DBUS_SOURCES
                      com.lingmo.FileManager.xml

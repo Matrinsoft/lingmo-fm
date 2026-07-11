@@ -27,10 +27,14 @@ set(SCREEN_SRCS
 )
 
 find_package(Qt6 COMPONENTS Core DBus Quick LinguistTools REQUIRED)
-find_package(KF6KIO REQUIRED)
-find_package(KF6Solid REQUIRED)
-find_package(KF6WindowSystem REQUIRED)
-find_package(KF6Config REQUIRED)
+find_package(KF6KIO QUIET)
+find_package(KF6Solid QUIET)
+find_package(KF6WindowSystem QUIET)
+find_package(KF6Config QUIET)
+if(NOT KF6KIO_FOUND OR NOT KF6WindowSystem_FOUND)
+    message(STATUS "KF6KIO or KF6WindowSystem not found, skipping lingmofilemanager")
+    return()
+endif()
 
 add_library(lingmofilemanager_qmlplugins SHARED ${SCREEN_SRCS})
 
